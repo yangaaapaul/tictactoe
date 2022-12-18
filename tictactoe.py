@@ -61,6 +61,35 @@ def run():
                     ind = (ind+1)%2
         pg.display.update()    
 
+
+def mini_max(board, player):
+    if isWinner('O'):
+        return 1
+    elif isWinner('X'):
+        return -1
+    elif full():
+        return 0
+    if player:
+        max_score = float('-inf')
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == -1:
+                    board[i][j] = 'O'
+                    curr_score = mini_max(board[i][j], False)
+                    max_score = max(max_score,curr_score)
+                    board[i][j] = -1
+                    return max_score
+    else:
+        max_score = float('inf')
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == -1:
+                    board[i][j] = 'X'
+                    curr_score = mini_max(board[i][j], True)
+                    min_score = min(max_score,curr_score)
+                    board[i][j] = -1
+                    return min_score
+
 def isWinner(currPlayer):
     return ((board[0][0] == currPlayer and board[0][1] == currPlayer and board[0][2] == currPlayer) or
             (board[1][0] == currPlayer and board[1][1] == currPlayer and board[1][2] == currPlayer) or
